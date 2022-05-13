@@ -7,16 +7,22 @@ void main() {
         title: const Text('Hi'),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(children: [
-            Container(
-              width: 200,
-              height: 200,
-              color: Colors.accents,
-            ),
-            Container()
-          ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-          Row(children: [Container(), Container()], mainAxisAlignment: MainAxisAlignment.spaceBetween)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(15),
+                width: 300,
+                height: 100,
+                //color: Colors.amber,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.blue),
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0))),
+              ),
+            ],
+          )
         ],
       ),
     ),
