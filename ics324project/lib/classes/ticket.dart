@@ -1,10 +1,10 @@
 import 'package:ics324project/classes/flight.dart';
 import 'package:ics324project/classes/passenger.dart';
 
-class ticket {
+class Ticket {
   String booking_reference;
   String time;
   String date;
-  flight f1;
-  passenger p1;
+  Flight f1;
+  Passenger p1;
 }

@@ -13,12 +13,14 @@ class _BottomNaviState extends State<BottomNavi> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Colors.transparent,
+      unselectedItemColor: const Color(0xFF231F20),
+      selectedItemColor: Colors.black,
       elevation: 0,
       currentIndex: _currentIndex,
       onTap: (_index) => setState(() => _currentIndex = _index),
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedIconTheme: IconThemeData(),
+      selectedIconTheme: IconThemeData(color: Colors.green),
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.draw_outlined), label: '2'),
         BottomNavigationBarItem(icon: Icon(Icons.airplanemode_active), label: '3'),

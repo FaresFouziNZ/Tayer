@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/screens/seats_page.dart';
 import 'package:ics324project/screens/splash_screen.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
+import 'package:ics324project/widgets/ticketCard.dart';
 import 'package:intl/intl.dart';
 
 class StartScreen extends StatefulWidget {
-  StartScreen({Key key}) : super(key: key);
+  const StartScreen({Key key}) : super(key: key);
 
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
+  List<String> city = ['RUH,JED,DMM,MED,AHB,ELQ,TIF,HAS,ULH,AJF,TUU,EAM,YNB,GIZ,HOF'];
+  String _departure, _arrival;
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
   int _guests = 0;
   @override
@@ -47,24 +49,38 @@ class _StartScreenState extends State<StartScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
+                          children: [
                             SizedBox(
                               width: 110,
                               child: TextField(
-                                decoration: InputDecoration(
+                                onChanged: (text) {
+                                  if (city.contains(text)) {
+                                    _departure = text;
+                                  } else {
+                                    _departure = "";
+                                  }
+                                },
+                                decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Departure',
                                     hintStyle: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
                                     prefixIcon: Icon(Icons.search)),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             SizedBox(
                               width: 110,
                               child: TextField(
-                                decoration: InputDecoration(
+                                onChanged: (text) {
+                                  if (city.contains(text)) {
+                                    _arrival = text;
+                                  } else {
+                                    _arrival = "";
+                                  }
+                                },
+                                decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Arrival',
                                     hintStyle: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
@@ -95,7 +111,12 @@ class _StartScreenState extends State<StartScreen> {
                                     (_date.compareTo(DateTime.now())) == -1
                                         ? "select date"
                                         : DateFormat('yyyy-MM-dd').format(_date),
-                                    style: const TextStyle(fontFamily: 'Poppins', fontSize: 16),
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 16,
+                                        color: _date.compareTo(DateTime.now()) == -1
+                                            ? const Color(0xAA625B71)
+                                            : Colors.black),
                                   ),
                                 ],
                               ),
@@ -128,9 +149,12 @@ class _StartScreenState extends State<StartScreen> {
                             const SizedBox(
                               width: 26,
                             ),
-                            const Text(
+                            Text(
                               "guests",
-                              style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  color: _guests == 0 ? const Color(0xAA625B71) : Colors.black),
                             ),
                             const SizedBox(
                               width: 50,
@@ -176,6 +200,7 @@ class _StartScreenState extends State<StartScreen> {
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                         child: ElevatedButton(
                           onPressed: () {
+                            if (_departure.isNotEmpty && _arrival.isNotEmpty) {}
                             Navigator.push(context, MaterialPageRoute(builder: (context) => const MySplash()));
                           },
                           child: const Text('Search'),
@@ -188,6 +213,9 @@ class _StartScreenState extends State<StartScreen> {
                             elevation: MaterialStateProperty.all(0),
                           ),
                         ),
+                      ),
+                      TicketCard(
+                        state: 3,
                       )
                     ],
                   ),
