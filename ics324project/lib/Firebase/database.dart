@@ -6,8 +6,8 @@ class DatabaseService extends ChangeNotifier {
   String uid;
   static DatabaseService _instance;
   final FirebaseCollections collections = FirebaseCollections();
-  Stream<List<Flight>> get flights {
-    return collections.flight.orderBy("status").snapshots().map((map) {
+  Stream<List<Flight>> flightsQue(String dep, String arr) {
+    return collections.flight.where('departure', isEqualTo: dep).snapshots().map((map) {
       List<Flight> list = [];
       for (var element in map.docs) {
         list.add(Flight.fromMap(element.data()));

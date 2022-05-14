@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BottomNavi extends StatefulWidget {
-  BottomNavi({Key key}) : super(key: key);
+  const BottomNavi({Key key}) : super(key: key);
 
   @override
   State<BottomNavi> createState() => _BottomNaviState();
@@ -20,10 +20,15 @@ class _BottomNaviState extends State<BottomNavi> {
       onTap: (_index) => setState(() => _currentIndex = _index),
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedIconTheme: IconThemeData(color: Colors.green),
+      selectedIconTheme: const IconThemeData(color: Colors.green),
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.draw_outlined), label: '2'),
-        BottomNavigationBarItem(icon: Icon(Icons.airplanemode_active), label: '3'),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.draw_outlined,
+              size: 40,
+            ),
+            label: '2'),
+        BottomNavigationBarItem(icon: Icon(Icons.airplanemode_active, size: 30), label: '3'),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
           label: '4',
