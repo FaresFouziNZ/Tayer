@@ -1,14 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ics324project/screens/start_screen.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class MySplash extends StatelessWidget {
   const MySplash({Key key}) : super(key: key);
-  Future<Widget> start() async {
-    await Firebase.initializeApp();
-    return StartScreen();
-  }
 
   @override
   Widget build(BuildContext context) {

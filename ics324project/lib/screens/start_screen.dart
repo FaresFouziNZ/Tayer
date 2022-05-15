@@ -1,23 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/screens/splash_screen.dart';
+import 'package:ics324project/classes/user.dart';
+import 'package:ics324project/screens/login.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
-import 'package:ics324project/widgets/ticketCard.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../Firebase/auth.dart';
+import '../widgets/globals.dart';
 
 class StartScreen extends StatefulWidget {
-  const StartScreen({Key key}) : super(key: key);
+  int btnindx;
+  StartScreen({Key key}) : super(key: key);
 
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
-  List<String> city = ['RUH,JED,DMM,MED,AHB,ELQ,TIF,HAS,ULH,AJF,TUU,EAM,YNB,GIZ,HOF'];
-  String _departure, _arrival;
+  List<String> city = [
+    'RUH',
+    'JED',
+    'DMM',
+    'MED',
+    'AHB',
+    'ELQ',
+    'TIF',
+    'HAS',
+    'ULH',
+    'AJF',
+    'TUU',
+    'EAM',
+    'YNB',
+    'GIZ',
+    'HOF'
+  ];
+  final AuthService _auth = AuthService();
+  String _departure = '', _arrival = '';
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
   int _guests = 0;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ProgUser>(context);
+    print(user.uid);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -98,7 +123,6 @@ class _StartScreenState extends State<StartScreen> {
                             child: Container(
                               color: Colors.transparent,
                               child: Row(
-                                //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   const Icon(
                                     Icons.date_range,
@@ -129,7 +153,6 @@ class _StartScreenState extends State<StartScreen> {
                                       lastDate: DateTime.now().add(const Duration(days: 365)))
                                   .then((value) => _date = value);
                               setState(() {});
-                              //_date = pickedDate;
                             },
                           ),
                         ),
@@ -137,7 +160,6 @@ class _StartScreenState extends State<StartScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Padding(
                               padding: EdgeInsets.fromLTRB(12, 8, 6, 8),
@@ -154,7 +176,7 @@ class _StartScreenState extends State<StartScreen> {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 16,
-                                  color: _guests == 0 ? const Color(0xAA625B71) : Colors.black),
+                                  color: _guests == 0 ? Globals.kIconColor : Colors.black),
                             ),
                             const SizedBox(
                               width: 50,
@@ -199,9 +221,30 @@ class _StartScreenState extends State<StartScreen> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_departure.isNotEmpty && _arrival.isNotEmpty) {}
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MySplash()));
+                          onPressed: () async {
+                            if (_departure.isNotEmpty && _arrival.isNotEmpty) {
+                              dynamic result = await _auth.signInAnon();
+                              if (result == null) {
+                                print('error signing in');
+                              } else {
+                                print(result);
+                              }
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialog(
+                                        title: const Text('Invalid City'),
+                                        content: const Text('Please check your input'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Ok'))
+                                        ],
+                                      ));
+                            }
                           },
                           child: const Text('Search'),
                           style: ButtonStyle(
@@ -214,15 +257,12 @@ class _StartScreenState extends State<StartScreen> {
                           ),
                         ),
                       ),
-                      TicketCard(
-                        state: 3,
-                      )
                     ],
                   ),
                 ),
                 padding: const EdgeInsets.all(20),
                 width: 300,
-                height: 400,
+                // height: 400,
                 //color: Colors.amber,
                 // decoration: BoxDecoration(
                 //     border: Border.all(width: 3, color: Colors.black),
@@ -232,7 +272,7 @@ class _StartScreenState extends State<StartScreen> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavi(),
+      bottomNavigationBar: BottomNavi(index: 1),
     );
   }
 }
