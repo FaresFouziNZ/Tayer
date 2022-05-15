@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/classes/user.dart';
 
 class AuthService {
@@ -16,6 +17,42 @@ class AuthService {
       UserCredential result = await _auth.signInAnonymously();
       User user = result.user;
       return _userFromFireBaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      User user = result.user;
+      return _userFromFireBaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future registerWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result =
+          await _auth.createUserWithEmailAndPassword(email: email, password: password).then((result) async {
+        await DatabaseService().createUser(user: ProgUser(uid: result.user.uid));
+        return null;
+      });
+      User user = result.user;
+
+      return _userFromFireBaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
     } catch (e) {
       print(e.toString());
       return null;

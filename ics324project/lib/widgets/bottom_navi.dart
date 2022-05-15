@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/screens/loginpage.dart';
+import 'package:ics324project/classes/user.dart';
+import 'package:ics324project/screens/login.dart';
 import 'package:ics324project/screens/manage_book.dart';
+import 'package:ics324project/screens/profile.dart';
 import 'package:ics324project/screens/start_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'gradicon.dart';
 
@@ -15,20 +18,25 @@ class BottomNavi extends StatefulWidget {
 
 class _BottomNaviState extends State<BottomNavi> {
   int _currentIndex = 0;
-  final screens = [ManageBooking(), StartScreen(), const LoginPage()];
+  final screens = [ManageBooking(), StartScreen(), const Login()];
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ProgUser>(context);
     return BottomNavigationBar(
       backgroundColor: Colors.transparent,
       unselectedItemColor: const Color(0xFF231F20),
       elevation: 0,
       currentIndex: _currentIndex,
       onTap: (_index) {
-        _currentIndex = _index;
-        setState(() {});
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => screens[_index]));
+        if (_index == 2 && user?.uid != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+        } else {
+          _currentIndex = _index;
+          setState(() {});
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => screens[_index]));
+        }
       },
       showSelectedLabels: false,
       showUnselectedLabels: false,
@@ -63,7 +71,7 @@ class _BottomNaviState extends State<BottomNavi> {
               LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: _currentIndex == 3
+                  colors: widget.index == 2
                       ? [const Color(0xFF5C83CF), const Color(0xFFCF5C86), const Color(0xFF9C5CCF)]
                       : [Colors.black, Colors.black])),
           label: '4',

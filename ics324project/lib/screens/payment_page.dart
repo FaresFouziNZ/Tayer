@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/globals.dart';
@@ -133,6 +134,7 @@ class _PaymentPageState extends State<PaymentPage> {
           )
         ],
       ),
+      bottomNavigationBar: BottomNavi(index: 2),
     );
   }
 }

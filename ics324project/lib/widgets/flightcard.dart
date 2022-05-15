@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ics324project/classes/flight.dart';
 
 class FlightInfoCard extends StatefulWidget {
-  const FlightInfoCard({Key key}) : super(key: key);
+  Flight flight;
+  FlightInfoCard({Key key, @required this.flight}) : super(key: key);
 
   @override
   State<FlightInfoCard> createState() => _FlightInfoCardState();
@@ -27,14 +29,14 @@ class _FlightInfoCardState extends State<FlightInfoCard> {
               //color: Colors.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Text('Dmm'),
-                  Icon(
+                children: [
+                  Text(widget.flight.departure),
+                  const Icon(
                     Icons.arrow_forward,
                     size: 18,
                   ),
                   Text(
-                    'Jazan',
+                    widget.flight.destination,
                     //style: TextStyle(fontSize: 12),
                   )
                 ],

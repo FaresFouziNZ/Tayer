@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
-import 'package:ics324project/Firebase/register.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
+import 'package:ics324project/widgets/globals.dart';
+import 'package:provider/provider.dart';
 
-import '../widgets/globals.dart';
+import '../classes/user.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterPageState extends State<RegisterPage> {
   final _auth = AuthService();
   String email = '';
   String password = '';
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ProgUser>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -45,7 +47,7 @@ class _LoginState extends State<Login> {
               const SizedBox(
                 height: 100,
               ),
-              const Text('LOGIN'),
+              const Text('Register new account'),
               const SizedBox(
                 height: 15,
               ),
@@ -89,30 +91,22 @@ class _LoginState extends State<Login> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
-                        },
-                        child: const Text(
-                          'Register new account',
-                          style: TextStyle(color: Color(0xFF18C0C1), fontSize: 16),
-                        )),
                     const SizedBox(
-                      width: 100,
+                      width: 190,
                     ),
                     ElevatedButton(
                       onPressed: () async {
                         RegExp regExp = RegExp('.*@.*');
                         if (regExp.hasMatch(email) && (password.length > 6)) {
-                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                          dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                           if (result == null) {
-                            setState(() async {});
+                            setState(() {});
                           } else {
-                            print('good!');
+                            print('Sign up successful');
                           }
                         } else {}
                       },
-                      child: const Text('Login'),
+                      child: const Text('Register'),
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all(const Size.fromWidth(125)),
                         backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/classes/user.dart';
-import 'package:ics324project/screens/login.dart';
+import 'package:ics324project/screens/sreach_flight.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -37,11 +37,11 @@ class _StartScreenState extends State<StartScreen> {
   final AuthService _auth = AuthService();
   String _departure = '', _arrival = '';
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
-  int _guests = 0;
+  final int _guests = 0;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ProgUser>(context);
-    print(user.uid);
+    print(user?.uid);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,11 +52,87 @@ class _StartScreenState extends State<StartScreen> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        leading: const Drawer(
+        leading: Drawer(
           elevation: 0,
-          child: Icon(
-            Icons.menu,
-            color: Colors.black,
+          child: GestureDetector(
+            child: const Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SingleChildScrollView(
+                      child: SizedBox(
+                        height: 200,
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {},
+                              child: const Text('Contact Us'),
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {},
+                              child: const Text('About Us'),
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {},
+                              child: const Text('Dark Mode'),
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await _auth.signOut();
+                              },
+                              child: const Text('Logout'),
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFFB20000)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    side: const BorderSide(color: Color(0xFFB20000)))),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // child: SizedBox(
+                      //   height: 300,
+                      //   child: Container(
+                      //     height: 100,
+                      //     decoration: BoxDecoration(
+                      //         border: Border.all(width: 3, color: Colors.black),
+                      //         borderRadius: const BorderRadius.all(Radius.circular(10))),
+                      //   ),
+                      // ),
+                    );
+                  });
+            },
           ),
         ),
       ),
@@ -132,9 +208,9 @@ class _StartScreenState extends State<StartScreen> {
                                     width: 32,
                                   ),
                                   Text(
-                                    (_date.compareTo(DateTime.now())) == -1
+                                    (_date?.compareTo(DateTime.now())) == -1
                                         ? "select date"
-                                        : DateFormat('yyyy-MM-dd').format(_date),
+                                        : DateFormat('yyyy-MM-dd')?.format(_date),
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 16,
@@ -157,79 +233,80 @@ class _StartScreenState extends State<StartScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(12, 8, 6, 8),
-                              child: Icon(
-                                Icons.person,
-                                color: Color(0xFF625B71),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 26,
-                            ),
-                            Text(
-                              "guests",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  color: _guests == 0 ? Globals.kIconColor : Colors.black),
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            GestureDetector(
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.remove,
-                                  size: 20,
-                                ),
-                                onTap: () {
-                                  if (_guests > 0) {
-                                    _guests = _guests - 1;
-                                    setState(() {});
-                                  }
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              _guests.toString(),
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              child: const Icon(
-                                Icons.add,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                _guests = _guests + 1;
-                                setState(() {});
-                              },
-                            )
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Row(
+                      //     children: [
+                      //       const Padding(
+                      //         padding: EdgeInsets.fromLTRB(12, 8, 6, 8),
+                      //         child: Icon(
+                      //           Icons.person,
+                      //           color: Color(0xFF625B71),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 26,
+                      //       ),
+                      //       Text(
+                      //         "guests",
+                      //         style: TextStyle(
+                      //             fontFamily: 'Poppins',
+                      //             fontSize: 16,
+                      //             color: _guests == 0 ? Globals.kIconColor : Colors.black),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 50,
+                      //       ),
+                      //       GestureDetector(
+                      //         child: GestureDetector(
+                      //           child: const Icon(
+                      //             Icons.remove,
+                      //             size: 20,
+                      //           ),
+                      //           onTap: () {
+                      //             if (_guests > 0) {
+                      //               _guests = _guests - 1;
+                      //               setState(() {});
+                      //             }
+                      //           },
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Text(
+                      //         _guests.toString(),
+                      //         style: const TextStyle(fontSize: 18),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       GestureDetector(
+                      //         child: const Icon(
+                      //           Icons.add,
+                      //           size: 20,
+                      //         ),
+                      //         onTap: () {
+                      //           _guests = _guests + 1;
+                      //           setState(() {});
+                      //         },
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_departure.isNotEmpty && _arrival.isNotEmpty) {
-                              dynamic result = await _auth.signInAnon();
-                              if (result == null) {
-                                print('error signing in');
-                              } else {
-                                print(result);
-                              }
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SearchFlight(
+                                            arrStr: _arrival,
+                                            depStr: _departure,
+                                            date: DateFormat('yyyy-MM-dd')?.format(_date),
+                                          )));
                             } else {
                               showDialog(
                                   context: context,
