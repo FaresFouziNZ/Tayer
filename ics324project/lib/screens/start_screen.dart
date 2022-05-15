@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Firebase/auth.dart';
-import '../widgets/globals.dart';
 
 class StartScreen extends StatefulWidget {
   int btnindx;
@@ -155,8 +154,8 @@ class _StartScreenState extends State<StartScreen> {
                               width: 110,
                               child: TextField(
                                 onChanged: (text) {
-                                  if (city.contains(text)) {
-                                    _departure = text;
+                                  if (city.contains(text.toUpperCase())) {
+                                    _departure = text.toUpperCase();
                                   } else {
                                     _departure = "";
                                   }
@@ -175,8 +174,8 @@ class _StartScreenState extends State<StartScreen> {
                               width: 110,
                               child: TextField(
                                 onChanged: (text) {
-                                  if (city.contains(text)) {
-                                    _arrival = text;
+                                  if (city.contains(text.toUpperCase())) {
+                                    _arrival = text.toUpperCase();
                                   } else {
                                     _arrival = "";
                                   }
@@ -303,8 +302,8 @@ class _StartScreenState extends State<StartScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SearchFlight(
-                                            arrStr: _arrival,
-                                            depStr: _departure,
+                                            arrStr: _arrival.toUpperCase(),
+                                            depStr: _departure.toUpperCase(),
                                             date: DateFormat('yyyy-MM-dd')?.format(_date),
                                           )));
                             } else {

@@ -41,7 +41,7 @@ class AuthService {
         await DatabaseService().createUser(user: ProgUser(uid: result.user.uid));
         return null;
       });
-      User user = result.user;
+      User user = result?.user;
 
       return _userFromFireBaseUser(user);
     } catch (e) {

@@ -13,15 +13,10 @@ class SearchFlight extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: DatabaseService.instance.flightsQue(depStr, arrStr, date),
-        //initialData: null,
+        initialData: null,
         builder: (context, snapshot) {
-          // if (snapshot.connectionState != ConnectionState.done) {
-          //   return const Center(
-          //     child: Text('s'),
-          //   );
-          // }
-          //result = snapshot.data;
-          print(snapshot.connectionState);
+          result = snapshot.data;
+          print(snapshot.data);
           return NotificationListener(
               child: Scaffold(
             appBar: AppBar(

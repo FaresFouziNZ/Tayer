@@ -17,9 +17,8 @@ class DatabaseService extends ChangeNotifier {
 
   Stream<List<Flight>> flightsQue(String dep, String arr, String date) {
     return collections.flight
-        .where('departure', isEqualTo: dep)
-        .where('destination', isEqualTo: arr)
-        .where('Departure_Date'.substring(0, 10), isEqualTo: date)
+        .where('Departure_Location', isEqualTo: dep)
+        .where('Arrival_Location', isEqualTo: arr)
         .snapshots()
         .map((map) {
       List<Flight> list = [];
