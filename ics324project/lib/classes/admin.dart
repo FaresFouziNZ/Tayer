@@ -1,6 +1,6 @@
 import 'package:ics324project/classes/user.dart';
 
-class Admin extends user {
+class Admin extends ProgUser {
   String employee_ID;
 
   promote() {}
