@@ -19,7 +19,7 @@ class ProgUser {
       isAdmin: map['isAdmin'],
     );
   }
-
+  isAdminFunc() {}
   book() {}
   editBooking() {}
 

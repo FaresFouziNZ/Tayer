@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/classes/user.dart';
+import 'package:ics324project/classes/prog_user.dart';
 import 'package:ics324project/screens/login.dart';
 import 'package:ics324project/screens/manage_book.dart';
 import 'package:ics324project/screens/profile.dart';

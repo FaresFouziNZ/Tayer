@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/classes/user.dart';
+import 'package:ics324project/classes/prog_user.dart';
+import 'package:ics324project/screens/main_screen.dart';
+import 'package:ics324project/screens/seats_page.dart';
 import 'package:ics324project/screens/sreach_flight.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +70,9 @@ class _StartScreenState extends State<StartScreen> {
                         child: Column(
                           children: [
                             ElevatedButton(
-                              onPressed: () async {},
+                              onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SeatsPage()));
+                              },
                               child: const Text('Contact Us'),
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
@@ -80,7 +84,9 @@ class _StartScreenState extends State<StartScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () async {},
+                              onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+                              },
                               child: const Text('About Us'),
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),

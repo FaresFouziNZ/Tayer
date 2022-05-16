@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
-import 'package:ics324project/classes/user.dart';
+import 'package:ics324project/classes/prog_user.dart';
 import 'package:ics324project/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 

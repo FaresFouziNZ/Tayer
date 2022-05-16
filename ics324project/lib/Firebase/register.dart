@@ -4,7 +4,7 @@ import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:ics324project/widgets/globals.dart';
 import 'package:provider/provider.dart';
 
-import '../classes/user.dart';
+import '../classes/prog_user.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);

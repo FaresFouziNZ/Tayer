@@ -2,21 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/widgets/flight_row.dart';
 
-class SearchFlight extends StatelessWidget {
-  SearchFlight({Key key, this.depStr, this.arrStr, this.date}) : super(key: key);
+class SearchFlight extends StatefulWidget {
+  const SearchFlight({Key key, this.depStr, this.arrStr, this.date}) : super(key: key);
   final String depStr;
   final String arrStr;
   final String date;
+
+  @override
+  State<SearchFlight> createState() => _SearchFlightState();
+}
+
+class _SearchFlightState extends State<SearchFlight> {
   var result = [];
+
+  int ticketType;
+  callbackFunc(newTicketType) {
+    setState(() {
+      ticketType = newTicketType;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: DatabaseService.instance.flightsQue(depStr, arrStr, date),
+    return FutureBuilder(
+        future: DatabaseService.instance.flights(widget.depStr, widget.arrStr, widget.date),
         initialData: null,
         builder: (context, snapshot) {
           result = snapshot.data;
-          print(snapshot.data);
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Scaffold(
+              body: Center(child: Text('Loading')),
+            );
+          }
           return NotificationListener(
               child: Scaffold(
             appBar: AppBar(
@@ -36,6 +53,7 @@ class SearchFlight extends StatelessWidget {
               ),
             ),
             body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
                 children: [
                   const SizedBox(
@@ -45,14 +63,14 @@ class SearchFlight extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        depStr,
+                        widget.depStr,
                         style: const TextStyle(fontSize: 20),
                       ),
                       const Icon(
                         Icons.arrow_forward,
                       ),
                       Text(
-                        arrStr,
+                        widget.arrStr,
                         style: const TextStyle(fontSize: 20),
                       )
                     ],
@@ -65,19 +83,30 @@ class SearchFlight extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        const SizedBox(
+                          width: 3,
+                        ),
                         const Icon(
                           Icons.calendar_today_outlined,
                           size: 35,
                         ),
                         Text(
-                          date.substring(5),
+                          widget.date.substring(5),
                           style: const TextStyle(fontSize: 30),
                         ),
+                        const SizedBox(
+                          width: 3,
+                        )
                       ],
                     ),
                   ),
                   Column(
-                    children: result.map((e) => FlightRow(flight: e)).toList(),
+                    children: result
+                        .map((e) => FlightRow(
+                              flight: e,
+                              callBack: callbackFunc,
+                            ))
+                        .toList(),
                   )
                 ],
               ),
