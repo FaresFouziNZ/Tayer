@@ -29,7 +29,7 @@ class Seat extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => PaymentPage(
                         flight: flightBook,
-                        classState: 3,
+                        classState: state,
                         seatNo: seatNo,
                       )));
         },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/classes/flight.dart';
 import 'package:ics324project/classes/prog_user.dart';
+import 'package:ics324project/screens/start_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -227,6 +228,20 @@ class _PaymentPageState extends State<PaymentPage> {
                       String bookingRef = DatabaseService().createBookingRef();
                       await DatabaseService().bookFlight(widget.flight.id, bookingRef, widget.classState, user.uid);
                       await DatabaseService().selectSeat(bookingRef, widget.seatNo, user.uid, widget.flight.id);
+                      showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                                title: const Text('Thank you'),
+                                content: Text('Your booking ID is: ' + bookingRef),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
+                                      },
+                                      child: const Text('Ok'))
+                                ],
+                              ));
                     }
                   },
                   child: const Text('Pay'),

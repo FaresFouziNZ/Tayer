@@ -228,21 +228,12 @@ class _StartScreenState extends State<StartScreen> {
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (_departure.isNotEmpty && _arrival.isNotEmpty && (_departure.compareTo(_arrival) != 0)) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SearchFlight(
-                                            arrStr: _arrival.toUpperCase(),
-                                            depStr: _departure.toUpperCase(),
-                                            date: DateFormat('yyyy-MM-dd')?.format(_date),
-                                          )));
-                            } else {
+                            if (user.uid == null) {
                               showDialog(
                                   context: context,
                                   builder: (_) => AlertDialog(
-                                        title: const Text('Invalid City'),
-                                        content: const Text('Please check your input'),
+                                        title: const Text('No account'),
+                                        content: const Text('Please register or sign in'),
                                         actions: [
                                           TextButton(
                                               onPressed: () {
@@ -251,6 +242,33 @@ class _StartScreenState extends State<StartScreen> {
                                               child: const Text('Ok'))
                                         ],
                                       ));
+                            } else {
+                              if (_departure.isNotEmpty &&
+                                  _arrival.isNotEmpty &&
+                                  (_departure.compareTo(_arrival) != 0)) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SearchFlight(
+                                              arrStr: _arrival.toUpperCase(),
+                                              depStr: _departure.toUpperCase(),
+                                              date: DateFormat('yyyy-MM-dd')?.format(_date),
+                                            )));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          title: const Text('Invalid City'),
+                                          content: const Text('Please check your input'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Ok'))
+                                          ],
+                                        ));
+                              }
                             }
                           },
                           child: const Text('Search'),
