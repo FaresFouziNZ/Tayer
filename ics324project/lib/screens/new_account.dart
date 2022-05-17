@@ -111,9 +111,9 @@ class NewAccountPage extends StatelessWidget {
                     child: const Text('Submit'),
                     style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
-                      backgroundColor: MaterialStateProperty.all(const Color(0xFFB20000)),
+                      backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18), side: const BorderSide(color: Color(0xFFB20000)))),
+                          borderRadius: BorderRadius.circular(18), side: const BorderSide(color: Color(0xFF18C0C1)))),
                       elevation: MaterialStateProperty.all(0),
                     ),
                   ),

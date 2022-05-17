@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/classes/prog_user.dart';
-import 'package:ics324project/screens/main_screen.dart';
+import 'package:ics324project/screens/start_screen.dart';
 import 'package:ics324project/widgets/globals.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class ProfilePage extends StatelessWidget {
     final AuthService _auth = AuthService();
 
     return FutureBuilder(
-        future: DatabaseService.instance.userById(user.uid),
+        future: DatabaseService.instance.userById(user?.uid),
         builder: (context, snapshop) {
           return NotificationListener(
               child: Scaffold(
@@ -76,8 +76,8 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
                       await _auth.signOut();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                     },
                     child: const Text('Logout'),
                     style: ButtonStyle(

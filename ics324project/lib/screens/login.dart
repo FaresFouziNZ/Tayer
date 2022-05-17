@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
-import 'package:ics324project/Firebase/register.dart';
+import 'package:ics324project/screens/register.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 
 import '../widgets/globals.dart';

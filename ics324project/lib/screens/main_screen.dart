@@ -3,7 +3,6 @@ import 'package:ics324project/Firebase/auth.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/classes/prog_user.dart';
 import 'package:ics324project/screens/manage_book.dart';
-import 'package:ics324project/screens/profile.dart';
 import 'package:ics324project/screens/start_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -97,7 +96,7 @@ class MainScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
                             },
                             child: const Icon(
                               Icons.person_outline,

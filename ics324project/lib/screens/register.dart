@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
 import 'package:ics324project/Firebase/database.dart';
+import 'package:ics324project/screens/new_account.dart';
 import 'package:ics324project/screens/start_screen.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:ics324project/widgets/globals.dart';
@@ -103,12 +104,26 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (regExp.hasMatch(email) && (password.length > 6)) {
                           dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                           if (result == null) {
+                            print('???');
                             setState(() {});
-                          } else {
-                            await DatabaseService().createUser(user: user);
-                            // Navigator.pop(context);
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StartScreen()));
                           }
+                          await DatabaseService().createUser(user: user);
+                          // Navigator.pop(context);
+                          showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                    title: const Text('Thank you'),
+                                    content: const Text('Your have registered'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (context) => const NewAccountPage()));
+                                          },
+                                          child: const Text('Ok'))
+                                    ],
+                                  ));
                         } else {}
                       },
                       child: const Text('Register'),
