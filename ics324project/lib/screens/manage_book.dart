@@ -6,7 +6,8 @@ import '../widgets/bottom_navi.dart';
 class ManageBooking extends StatelessWidget {
   int index;
   ManageBooking({Key key}) : super(key: key);
-
+  String bookingRef = '';
+  String lastName = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,19 +36,25 @@ class ManageBooking extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 200,
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (text) {
+                        bookingRef = text;
+                      },
+                      decoration: const InputDecoration(
                           hintText: 'Booking Reference',
                           hintStyle: Globals.kHintStyle,
                           prefixIcon: Icon(Icons.bookmark_border_outlined)),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 200,
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (text) {
+                        lastName = text;
+                      },
+                      decoration: const InputDecoration(
                           hintText: 'Passenger Last Name',
                           hintStyle: Globals.kHintStyle,
                           prefixIcon: Icon(Icons.people_alt_outlined)),
@@ -57,7 +64,9 @@ class ManageBooking extends StatelessWidget {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      //TODO
+                    },
                     child: const Text('Search'),
                     style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size.fromWidth(125)),

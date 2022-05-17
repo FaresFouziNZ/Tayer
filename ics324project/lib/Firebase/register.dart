@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
+import 'package:ics324project/Firebase/database.dart';
+import 'package:ics324project/screens/start_screen.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:ics324project/widgets/globals.dart';
 import 'package:provider/provider.dart';
@@ -73,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: 300,
                   height: 40,
                   child: TextField(
+                    obscureText: true,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                         hintText: 'password',
@@ -102,7 +105,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (result == null) {
                             setState(() {});
                           } else {
-                            print('Sign up successful');
+                            await DatabaseService().createUser(user: user);
+                            // Navigator.pop(context);
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StartScreen()));
                           }
                         } else {}
                       },

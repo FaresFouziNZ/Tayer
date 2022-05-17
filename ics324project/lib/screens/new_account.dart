@@ -6,14 +6,14 @@ import 'package:ics324project/screens/main_screen.dart';
 import 'package:ics324project/widgets/globals.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key key}) : super(key: key);
+class NewAccountPage extends StatelessWidget {
+  const NewAccountPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ProgUser>(context);
     final AuthService _auth = AuthService();
-
+    String fName = '', lName = '', age = '';
     return FutureBuilder(
         future: DatabaseService.instance.userById(user.uid),
         builder: (context, snapshop) {
@@ -33,16 +33,19 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.fromLTRB(8, 16, 0, 40),
-                    child: CircleAvatar(backgroundImage: AssetImage('image/4zueyq.png'), radius: 75),
+                    child: CircleAvatar(backgroundImage: null, radius: 75),
                   ),
                   SizedBox(
                     width: 200,
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (text) {
+                        fName = text;
+                      },
+                      decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: snapshop.data?.firstName,
+                          hintText: 'First Name',
                           hintStyle: Globals.kHintStyle,
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.person_outline,
                             color: Globals.kIconColor,
                           )),
@@ -51,11 +54,14 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (text) {
+                        lName = text;
+                      },
+                      decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'is Admin  :' + snapshop.data?.isAdmin.toString(),
+                          hintText: 'Last Name',
                           hintStyle: Globals.kHintStyle,
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.person_outline,
                             color: Globals.kIconColor,
                           )),
@@ -64,11 +70,14 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (text) {
+                        age = text;
+                      },
+                      decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: snapshop.data?.age.toString(),
+                          hintText: 'Age',
                           hintStyle: Globals.kHintStyle,
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.person_outline,
                             color: Globals.kIconColor,
                           )),
@@ -76,10 +85,30 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _auth.signOut();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+                      if (age.isEmpty || fName.isEmpty || lName.isEmpty) {
+                        showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  title: const Text('Invalid input'),
+                                  content: const Text('Please check your input'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Ok'))
+                                  ],
+                                ));
+                      } else {
+                        user.age = int.parse(age);
+                        user.firstName = fName;
+                        user.lastName = lName;
+                        user.isAdmin = false;
+                        await DatabaseService().updateUser(user: user);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+                      }
                     },
-                    child: const Text('Logout'),
+                    child: const Text('Submit'),
                     style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
                       backgroundColor: MaterialStateProperty.all(const Color(0xFFB20000)),

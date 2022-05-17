@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ics324project/screens/seats_page.dart';
 import 'package:ics324project/widgets/flightcard.dart';
 import 'package:ics324project/widgets/ticketcard.dart';
 
@@ -24,13 +25,39 @@ class FlightRow extends StatelessWidget {
           InkWell(
             child: TicketCard(state: 1),
             onTap: () {
-              callBack() {}
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SeatsPage(
+                            flightBooked: flight,
+                            classState: 1,
+                          )));
             },
           ),
           InkWell(
             child: TicketCard(state: 2),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SeatsPage(
+                            flightBooked: flight,
+                            classState: 2,
+                          )));
+            },
           ),
-          InkWell(child: TicketCard(state: 3))
+          InkWell(
+            child: TicketCard(state: 3),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SeatsPage(
+                            flightBooked: flight,
+                            classState: 3,
+                          )));
+            },
+          )
         ],
       ),
     );

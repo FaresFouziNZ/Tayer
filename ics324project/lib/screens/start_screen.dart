@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/classes/prog_user.dart';
-import 'package:ics324project/screens/main_screen.dart';
-import 'package:ics324project/screens/seats_page.dart';
 import 'package:ics324project/screens/sreach_flight.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:intl/intl.dart';
@@ -70,9 +68,7 @@ class _StartScreenState extends State<StartScreen> {
                         child: Column(
                           children: [
                             ElevatedButton(
-                              onPressed: () async {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SeatsPage()));
-                              },
+                              onPressed: () async {},
                               child: const Text('Contact Us'),
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
@@ -84,9 +80,7 @@ class _StartScreenState extends State<StartScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () async {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-                              },
+                              onPressed: () async {},
                               child: const Text('About Us'),
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
@@ -126,15 +120,6 @@ class _StartScreenState extends State<StartScreen> {
                           ],
                         ),
                       ),
-                      // child: SizedBox(
-                      //   height: 300,
-                      //   child: Container(
-                      //     height: 100,
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(width: 3, color: Colors.black),
-                      //         borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      //   ),
-                      // ),
                     );
                   });
             },
@@ -144,6 +129,7 @@ class _StartScreenState extends State<StartScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text('BOOK A FLIGHT', style: TextStyle(fontFamily: 'Poppins', fontSize: 24)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -238,72 +224,11 @@ class _StartScreenState extends State<StartScreen> {
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Row(
-                      //     children: [
-                      //       const Padding(
-                      //         padding: EdgeInsets.fromLTRB(12, 8, 6, 8),
-                      //         child: Icon(
-                      //           Icons.person,
-                      //           color: Color(0xFF625B71),
-                      //         ),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 26,
-                      //       ),
-                      //       Text(
-                      //         "guests",
-                      //         style: TextStyle(
-                      //             fontFamily: 'Poppins',
-                      //             fontSize: 16,
-                      //             color: _guests == 0 ? Globals.kIconColor : Colors.black),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 50,
-                      //       ),
-                      //       GestureDetector(
-                      //         child: GestureDetector(
-                      //           child: const Icon(
-                      //             Icons.remove,
-                      //             size: 20,
-                      //           ),
-                      //           onTap: () {
-                      //             if (_guests > 0) {
-                      //               _guests = _guests - 1;
-                      //               setState(() {});
-                      //             }
-                      //           },
-                      //         ),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 10,
-                      //       ),
-                      //       Text(
-                      //         _guests.toString(),
-                      //         style: const TextStyle(fontSize: 18),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 10,
-                      //       ),
-                      //       GestureDetector(
-                      //         child: const Icon(
-                      //           Icons.add,
-                      //           size: 20,
-                      //         ),
-                      //         onTap: () {
-                      //           _guests = _guests + 1;
-                      //           setState(() {});
-                      //         },
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (_departure.isNotEmpty && _arrival.isNotEmpty) {
+                            if (_departure.isNotEmpty && _arrival.isNotEmpty && (_departure.compareTo(_arrival) != 0)) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

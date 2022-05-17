@@ -54,7 +54,7 @@ class _FlightInfoCardState extends State<FlightInfoCard> {
                 const Icon(
                   Icons.watch_later_outlined,
                   size: 16,
-                  color: Color(0xFFFFC267),
+                  color: Colors.grey,
                 ),
                 Text(
                   widget.flight.departure_time,

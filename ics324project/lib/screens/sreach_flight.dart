@@ -44,13 +44,6 @@ class _SearchFlightState extends State<SearchFlight> {
                 style: TextStyle(color: Colors.black),
               ),
               centerTitle: true,
-              leading: const Drawer(
-                elevation: 0,
-                child: Icon(
-                  Icons.menu,
-                  color: Colors.black,
-                ),
-              ),
             ),
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,

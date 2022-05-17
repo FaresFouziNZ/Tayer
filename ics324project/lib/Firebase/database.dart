@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ics324project/Firebase/collection_ref.dart';
@@ -24,6 +26,10 @@ class DatabaseService extends ChangeNotifier {
     return await collections.users.doc(user.uid).set(user.toMap(), SetOptions(merge: true));
   }
 
+  Future updateUser({@required ProgUser user}) async {
+    return await collections.users.doc(user.uid).update(user.toMap());
+  }
+
   Future<List<Flight>> flights(String dep, String arr, String date) async {
     QuerySnapshot flightsQuerySnapshot = await collections.flight
         .where('departure_location', isEqualTo: dep)
@@ -45,23 +51,31 @@ class DatabaseService extends ChangeNotifier {
     return ProgUser.fromMap((await collections.users.doc(id).get()).data());
   }
 
-  Future bookFlight(String flightId, int classType, String userId) async {
+  Future bookFlight(String flightId, String bookingId, int classType, String userId) async {
     await collections.flight.doc(flightId).update({
       'booked_seats': FieldValue.increment(1),
       'waitListed': FieldValue.arrayUnion([userId]),
     });
-    return await collections.booking.add({
-      'flight_id': flightId,
-      'user_id': userId,
+    return await collections.booking.doc(bookingId).set({
+      'fid': flightId,
+      'uid': userId,
       'class_type': classType,
+      // TODO add last name
     });
   }
+  // Future cancelTicket(String bookingId, String lastName) async {
+  //   await collections.booking.doc(bookingId).get
+  //   await collections.flight.doc(booking.data()['flight_id']).update({
+  //     'booked_seats': FieldValue.increment(-1),
+  //     'waitListed': FieldValue.arrayRemove([booking.data()['user_id']]),
+  //   });
+  //   return await collections.booking.doc(bookingId).delete();
+  // }
 
-  Future selectSeat(String bookingId, String seat, String userId) async {
+  Future selectSeat(String bookingId, String seat, String userId, String flightId) async {
     // aka create ticket
-    Object data;
-    await collections.booking.doc(bookingId).get().then((doc) => {data = doc.data()});
-    await collections.flight.doc(data).update({
+    // await collections.booking.doc(bookingId).get().then((doc) => {data = doc.data()});
+    await collections.flight.doc(flightId).update({
       'seat': {seat: userId}
     });
     return await collections.ticket.add({
@@ -70,5 +84,11 @@ class DatabaseService extends ChangeNotifier {
       'weights': '30kg',
       'user_id': uid,
     });
+  }
+
+  String createBookingRef() {
+    String _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    Random _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(6, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
 }
