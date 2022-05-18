@@ -93,6 +93,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      Navigator.pop(context);
                       Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
                       await _auth.signOut();
                     },

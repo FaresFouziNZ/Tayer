@@ -36,7 +36,7 @@ class AuthService {
     try {
       UserCredential result =
           await _auth.createUserWithEmailAndPassword(email: email, password: password).then((result) async {
-        await DatabaseService().createUser(user: ProgUser(uid: result.user.uid));
+        await DatabaseService.instance.createUser(user: ProgUser(uid: result.user.uid));
         return null;
       });
       User user = result?.user;

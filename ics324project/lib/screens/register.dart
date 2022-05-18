@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/auth.dart';
-import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/screens/new_account.dart';
-import 'package:ics324project/screens/start_screen.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
 import 'package:ics324project/widgets/globals.dart';
 import 'package:provider/provider.dart';
@@ -104,10 +102,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (regExp.hasMatch(email) && (password.length > 6)) {
                           dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                           if (result == null) {
-                            print('???');
                             setState(() {});
                           }
-                          await DatabaseService().createUser(user: user);
                           // Navigator.pop(context);
                           showDialog(
                               context: context,
@@ -118,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       TextButton(
                                           onPressed: () {
                                             Navigator.pop(context);
-                                            Navigator.push(context,
+                                            Navigator.pushReplacement(context,
                                                 MaterialPageRoute(builder: (context) => const NewAccountPage()));
                                           },
                                           child: const Text('Ok'))
