@@ -26,7 +26,7 @@ class _TicketCardState extends State<TicketCard> {
     } else if (widget.state == 2) {
       return const Text('200');
     } else {
-      return const Text('50');
+      return const Text('100');
     }
   }
 

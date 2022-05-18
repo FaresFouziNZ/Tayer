@@ -9,10 +9,11 @@ import 'package:provider/provider.dart';
 import '../widgets/globals.dart';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({Key key, this.classState, this.flight, this.seatNo}) : super(key: key);
+  PaymentPage({Key key, this.classState, this.flight, this.seatNo, this.previousFlight}) : super(key: key);
   int classState;
   Flight flight;
   String seatNo;
+  Flight previousFlight;
   @override
   State<PaymentPage> createState() => _PaymentPageState();
 }
@@ -225,6 +226,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                 ],
                               ));
                     } else {
+                      if (widget.previousFlight != null) {
+                        //TODO delete ticket
+                      }
                       String bookingRef = DatabaseService().createBookingRef();
                       await DatabaseService().bookFlight(widget.flight.id, bookingRef, widget.classState, user.uid);
                       await DatabaseService().selectSeat(bookingRef, widget.seatNo, user.uid, widget.flight.id);

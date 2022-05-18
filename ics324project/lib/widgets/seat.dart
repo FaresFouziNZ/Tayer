@@ -3,11 +3,13 @@ import 'package:ics324project/classes/flight.dart';
 import 'package:ics324project/screens/payment_page.dart';
 
 class Seat extends StatelessWidget {
-  Seat({Key key, this.state, this.seatNo, this.isBooked, this.flightBook}) : super(key: key);
+  Seat({Key key, this.state, this.seatNo, this.isBooked, this.flightBook, this.previousFlight}) : super(key: key);
   int state;
   String seatNo;
   bool isBooked;
   Flight flightBook;
+  Flight previousFlight;
+
   Color colorSelector(state) {
     if (state == 1) {
       return const Color(0xFFCF5C86);
@@ -31,6 +33,7 @@ class Seat extends StatelessWidget {
                         flight: flightBook,
                         classState: state,
                         seatNo: seatNo,
+                        previousFlight: previousFlight,
                       )));
         },
         child: ClipRRect(

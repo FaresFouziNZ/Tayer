@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/classes/prog_user.dart';
+import 'package:ics324project/classes/flight.dart';
 import 'package:ics324project/screens/sreach_flight.dart';
-import 'package:ics324project/widgets/bottom_navi.dart';
-import 'package:ics324project/widgets/ticket_card.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../Firebase/auth.dart';
+import '../classes/prog_user.dart';
 
-class StartScreen extends StatefulWidget {
-  int btnindx;
-  StartScreen({Key key}) : super(key: key);
+class EditFlight extends StatefulWidget {
+  Flight previousFlight;
+  EditFlight({Key key, this.previousFlight}) : super(key: key);
 
   @override
-  State<StartScreen> createState() => _StartScreenState();
+  State<EditFlight> createState() => _EditFlightState();
 }
 
-class _StartScreenState extends State<StartScreen> {
+class _EditFlightState extends State<EditFlight> {
   List<String> city = [
     'RUH',
     'JED',
@@ -34,104 +32,17 @@ class _StartScreenState extends State<StartScreen> {
     'GIZ',
     'HOF'
   ];
-  final AuthService _auth = AuthService();
   String _departure = '', _arrival = '';
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ProgUser>(context);
-    print(user?.uid);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'T A Y E R ™',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        leading: Drawer(
-          elevation: 0,
-          child: GestureDetector(
-            child: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                      child: SizedBox(
-                        height: 200,
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => TicketCard()));
-                              },
-                              child: const Text('Contact Us'),
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
-                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
-                                elevation: MaterialStateProperty.all(0),
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {},
-                              child: const Text('About Us'),
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
-                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
-                                elevation: MaterialStateProperty.all(0),
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {},
-                              child: const Text('Dark Mode'),
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
-                                backgroundColor: MaterialStateProperty.all(const Color(0xFF18C0C1)),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                    side: const BorderSide(color: Color(0xFF18C0C1)))),
-                                elevation: MaterialStateProperty.all(0),
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await _auth.signOut();
-                              },
-                              child: const Text('Logout'),
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),
-                                backgroundColor: MaterialStateProperty.all(const Color(0xFFB20000)),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                    side: const BorderSide(color: Color(0xFFB20000)))),
-                                elevation: MaterialStateProperty.all(0),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            },
-          ),
-        ),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('BOOK A FLIGHT', style: TextStyle(fontFamily: 'Poppins', fontSize: 24)),
+          const Text('Edit your booking', style: TextStyle(fontFamily: 'Poppins', fontSize: 24)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -154,11 +65,11 @@ class _StartScreenState extends State<StartScreen> {
                                     _departure = "";
                                   }
                                 },
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Departure',
-                                    hintStyle: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
-                                    prefixIcon: Icon(Icons.search)),
+                                    hintText: widget.previousFlight.departure_location,
+                                    hintStyle: const TextStyle(fontSize: 12, fontFamily: 'Poppins'),
+                                    prefixIcon: const Icon(Icons.search)),
                               ),
                             ),
                             const SizedBox(
@@ -174,11 +85,11 @@ class _StartScreenState extends State<StartScreen> {
                                     _arrival = "";
                                   }
                                 },
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Arrival',
-                                    hintStyle: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
-                                    prefixIcon: Icon(Icons.search)),
+                                    hintText: widget.previousFlight.arrival_location,
+                                    hintStyle: const TextStyle(fontSize: 12, fontFamily: 'Poppins'),
+                                    prefixIcon: const Icon(Icons.search)),
                               ),
                             ),
                           ],
@@ -284,6 +195,32 @@ class _StartScreenState extends State<StartScreen> {
                           ),
                         ),
                       ),
+                      TextButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                    title: const Text('Warning:'),
+                                    content: const Text('Are you sure you want to cancel this booking?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('No, I do not')),
+                                      TextButton(
+                                          onPressed: () {
+                                            //TODO Cancel booking
+                                          },
+                                          child: const Text('Yes, cancel this booking'))
+                                    ],
+                                  ));
+                        },
+                        child: const Text(
+                          'Cancel this booking>',
+                          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -299,7 +236,6 @@ class _StartScreenState extends State<StartScreen> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavi(index: 1),
     );
   }
 }

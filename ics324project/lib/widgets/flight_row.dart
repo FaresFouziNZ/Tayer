@@ -7,8 +7,9 @@ import '../classes/flight.dart';
 
 class FlightRow extends StatelessWidget {
   Flight flight;
-  FlightRow({Key key, @required this.flight, this.callBack, this.type}) : super(key: key);
+  FlightRow({Key key, @required this.flight, this.callBack, this.type, this.previousFlight}) : super(key: key);
   final Function callBack;
+  Flight previousFlight;
   int type;
 //   @override
 //   State<FlightRow> createState() => _FlightRowState();
@@ -31,6 +32,7 @@ class FlightRow extends StatelessWidget {
                       builder: (context) => SeatsPage(
                             flightBooked: flight,
                             classState: 1,
+                            previousFlight: previousFlight,
                           )));
             },
           ),
@@ -43,6 +45,7 @@ class FlightRow extends StatelessWidget {
                       builder: (context) => SeatsPage(
                             flightBooked: flight,
                             classState: 2,
+                            previousFlight: previousFlight,
                           )));
             },
           ),
@@ -55,6 +58,7 @@ class FlightRow extends StatelessWidget {
                       builder: (context) => SeatsPage(
                             flightBooked: flight,
                             classState: 3,
+                            previousFlight: previousFlight,
                           )));
             },
           )

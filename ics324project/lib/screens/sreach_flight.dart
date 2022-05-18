@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/widgets/flight_row.dart';
 
+import '../classes/flight.dart';
+
 class SearchFlight extends StatefulWidget {
-  const SearchFlight({Key key, this.depStr, this.arrStr, this.date}) : super(key: key);
+  SearchFlight({Key key, this.depStr, this.arrStr, this.date, this.previousFlight}) : super(key: key);
   final String depStr;
   final String arrStr;
   final String date;
+  Flight previousFlight;
 
   @override
   State<SearchFlight> createState() => _SearchFlightState();
@@ -98,6 +101,7 @@ class _SearchFlightState extends State<SearchFlight> {
                         .map((e) => FlightRow(
                               flight: e,
                               callBack: callbackFunc,
+                              previousFlight: widget.previousFlight,
                             ))
                         .toList(),
                   )
