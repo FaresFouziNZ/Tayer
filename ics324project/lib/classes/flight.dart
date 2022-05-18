@@ -6,6 +6,7 @@ class Flight {
   String arrival_date;
   String arrival_time;
   String departure_time;
+  String planeName;
   Flight(
       {this.arrival_location,
       this.departure_location,
@@ -13,7 +14,8 @@ class Flight {
       this.departure_date,
       this.arrival_date,
       this.arrival_time,
-      this.departure_time});
+      this.departure_time,
+      this.planeName});
   Map<String, dynamic> toMap() {
     return {
       'arrival_location': arrival_location,
@@ -22,7 +24,8 @@ class Flight {
       'departure_date': departure_date,
       'arrival_date': arrival_date,
       'arrival_time': arrival_time,
-      'departure_time': departure_time
+      'departure_time': departure_time,
+      'planeName': planeName
     };
   }
 
@@ -36,6 +39,7 @@ class Flight {
       arrival_date: map['arrival_date'],
       departure_time: map['departure_time'],
       arrival_time: map['arrival_time'],
+      planeName: map['planeName'],
     );
   }
 }

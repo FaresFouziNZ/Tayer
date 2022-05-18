@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ics324project/Firebase/collection_ref.dart';
+import 'package:ics324project/classes/booking.dart';
 import 'package:ics324project/classes/flight.dart';
 import 'package:ics324project/classes/prog_user.dart';
 
@@ -47,6 +48,10 @@ class DatabaseService extends ChangeNotifier {
     return (list);
   }
 
+  Future<Flight> flightById(id) async {
+    return Flight.fromMap((await collections.flight.doc(id).get()).data());
+  }
+
   Future<ProgUser> userById(id) async {
     return ProgUser.fromMap((await collections.users.doc(id).get()).data());
   }
@@ -60,6 +65,7 @@ class DatabaseService extends ChangeNotifier {
       'fid': flightId,
       'uid': userId,
       'class_type': classType,
+      'bid': bookingId
       // TODO add last name
     });
   }
@@ -78,6 +84,7 @@ class DatabaseService extends ChangeNotifier {
     await collections.flight.doc(flightId).update({
       'seat': {seat: userId}
     });
+
     return await collections.ticket.add({
       'id': bookingId,
       'seat': seat,
@@ -90,5 +97,18 @@ class DatabaseService extends ChangeNotifier {
     String _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
     Random _rnd = Random();
     return String.fromCharCodes(Iterable.generate(6, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  }
+
+  Future<List<Booking>> getBooking(id) async {
+    QuerySnapshot bookingQuerySnapshot = await collections.booking.where('uid', isEqualTo: id).get();
+    return bookingDocsToList(bookingQuerySnapshot.docs);
+  }
+
+  List<Booking> bookingDocsToList(List<DocumentSnapshot> documents) {
+    List<Booking> list = [];
+    for (var document in documents) {
+      list.add(Booking.fromMap(document.data()));
+    }
+    return (list);
   }
 }

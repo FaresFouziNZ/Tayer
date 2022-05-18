@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ics324project/classes/prog_user.dart';
 import 'package:ics324project/screens/sreach_flight.dart';
 import 'package:ics324project/widgets/bottom_navi.dart';
+import 'package:ics324project/widgets/ticket_card.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,9 @@ class _StartScreenState extends State<StartScreen> {
                         child: Column(
                           children: [
                             ElevatedButton(
-                              onPressed: () async {},
+                              onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => TicketCard()));
+                              },
                               child: const Text('Contact Us'),
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(const Size.fromWidth(250)),

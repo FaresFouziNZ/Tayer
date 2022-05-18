@@ -108,7 +108,7 @@ class _LoginState extends State<Login> {
                           if (result == null) {
                             setState(() async {});
                           } else {
-                            print('good!');
+                            //good
                           }
                         } else {}
                       },

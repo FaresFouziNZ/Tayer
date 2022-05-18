@@ -16,7 +16,23 @@ class ProfilePage extends StatelessWidget {
 
     return FutureBuilder(
         future: DatabaseService.instance.userById(user?.uid),
-        builder: (context, snapshop) {
+        builder: (context, snapshot) {
+          if (!(snapshot.connectionState == ConnectionState.done)) {
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: const Text(
+                  'T A Y E R ™',
+                  style: TextStyle(color: Colors.black),
+                ),
+                centerTitle: true,
+              ),
+              body: const Center(
+                child: Text('Loading'),
+              ),
+            );
+          }
           return NotificationListener(
               child: Scaffold(
             appBar: AppBar(
@@ -40,7 +56,21 @@ class ProfilePage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: snapshop.data?.firstName,
+                          hintText: snapshot.data?.firstName,
+                          hintStyle: Globals.kHintStyle,
+                          prefixIcon: const Icon(
+                            Icons.person_outline,
+                            color: Globals.kIconColor,
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: TextField(
+                      enableInteractiveSelection: false,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'User id: ' + snapshot.data?.uid.toString(),
                           hintStyle: Globals.kHintStyle,
                           prefixIcon: const Icon(
                             Icons.person_outline,
@@ -53,20 +83,7 @@ class ProfilePage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'is Admin  :' + snapshop.data?.isAdmin.toString(),
-                          hintStyle: Globals.kHintStyle,
-                          prefixIcon: const Icon(
-                            Icons.person_outline,
-                            color: Globals.kIconColor,
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 200,
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: snapshop.data?.age.toString(),
+                          hintText: snapshot.data?.age.toString(),
                           hintStyle: Globals.kHintStyle,
                           prefixIcon: const Icon(
                             Icons.person_outline,

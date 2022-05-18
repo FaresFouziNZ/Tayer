@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ics324project/Firebase/auth.dart';
 import 'package:ics324project/Firebase/database.dart';
 import 'package:ics324project/classes/prog_user.dart';
 import 'package:ics324project/screens/manage_book.dart';
@@ -12,11 +11,10 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ProgUser>(context);
-    final AuthService _auth = AuthService();
 
     return FutureBuilder(
         future: DatabaseService.instance.userById(user?.uid),
-        builder: (context, snapshop) {
+        builder: (context, snapshot) {
           return NotificationListener(
               child: Scaffold(
             appBar: AppBar(
