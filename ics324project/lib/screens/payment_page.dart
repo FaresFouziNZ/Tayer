@@ -226,8 +226,9 @@ class _PaymentPageState extends State<PaymentPage> {
                               ));
                     } else {
                       String bookingRef = DatabaseService().createBookingRef();
-                      await DatabaseService().bookFlight(widget.flight.id, bookingRef, widget.classState, user.uid);
-                      await DatabaseService().selectSeat(bookingRef, widget.seatNo, user.uid, widget.flight.id);
+                                                        //String flightId, String bookingId, int classType, String userId
+                      await DatabaseService().bookFlight(widget.flight.fid, bookingRef, widget.classState, user.uid);
+                      await DatabaseService().setSeat(widget.flight.fid, bookingRef, widget.seatNo, user.uid);
                       showDialog(
                           context: context,
                           builder: (_) => AlertDialog(

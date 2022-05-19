@@ -9,4 +9,5 @@ class FirebaseCollections {
   final CollectionReference seat = _databaseref.collection('seat');
   final CollectionReference ticket = _databaseref.collection('ticket');
   final CollectionReference booking = _databaseref.collection('booking');
+  final CollectionReference payment = _databaseref.collection('payment');
 }
